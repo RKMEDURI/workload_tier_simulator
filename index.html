@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Multi-Tier Cloud & Edge Workload Simulator</title>
+    <meta name="description" content="Simulate real-time cloud and edge workload placement across Private Cloud, Public Cloud, and Edge Nodes using multi-objective evolutionary algorithms.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>Multi-Tier Meta-Orchestrator</h1>
+                    <p>Real-Time Infrastructure Workload Placement Simulator</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <select id="preset-selector" class="form-control" title="Load Preset Infrastructure & Run Configurations">
+                    <option value="default">Preset: Standard Hybrid Cloud (Images Sample)</option>
+                    <option value="ai-cluster">Preset: High-Perf AI / GPU Cluster</option>
+                    <option value="edge-mesh">Preset: Ultra-Low Latency 5G Edge Mesh</option>
+                    <option value="multi-region">Preset: Global Enterprise Multi-Region</option>
+                </select>
+                <button id="run-btn" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Run Simulation
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" data-tab="tab-configs">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                1. Tier & Run Configurations
+            </button>
+            <button class="tab-btn" data-tab="tab-placement">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+                2. Graphical Placement
+            </button>
+            <button class="tab-btn" data-tab="tab-results">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+                3. Experiment Results & Benchmarks
+            </button>
+            <button class="tab-btn" data-tab="tab-workloads">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                4. Workload Trace Explorer
+            </button>
+        </nav>
+
+        <!-- TAB 1: CONFIGURATIONS -->
+        <div id="tab-configs" class="tab-content active">
+
+            <!-- Run Configuration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Run Configuration</div>
+                        <div class="card-description">Set workload size, arrival pattern, evolutionary parameters, and objective weightings</div>
+                    </div>
+                    <button id="reset-run-config-btn" class="btn btn-secondary btn-sm">Reset Run Config</button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="input-workload-size">Workload Size</label>
+                        <input type="number" id="input-workload-size" class="form-control" value="500" min="10" max="20000" step="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-arrival-pattern">Arrival Pattern</label>
+                        <select id="input-arrival-pattern" class="form-control">
+                            <option value="dynamic" selected>dynamic (Poisson / Burst)</option>
+                            <option value="fixed">fixed (Uniform Spacing)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="input-seed">Random Seed</label>
+                        <input type="number" id="input-seed" class="form-control" value="1001">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-ga-pop">GA Population</label>
+                        <input type="number" id="input-ga-pop" class="form-control" value="14" min="4" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-ga-gen">GA Generations</label>
+                        <input type="number" id="input-ga-gen" class="form-control" value="12" min="2" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-nsga-pop">NSGA Population</label>
+                        <input type="number" id="input-nsga-pop" class="form-control" value="14" min="4" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-nsga-gen">NSGA Generations</label>
+                        <input type="number" id="input-nsga-gen" class="form-control" value="10" min="2" max="100">
+                    </div>
+                </div>
+
+                <!-- Objective Weights Inputs & Normalization -->
+                <div style="margin-top: 1.5rem;">
+                    <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-main);">
+                        Objective Weights Input (Auto-Normalized so sum = 1.0)
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="input-w-latency">Latency Weight</label>
+                            <input type="number" id="input-w-latency" class="form-control weight-input" value="0.45" step="0.05" min="0">
+                            <span class="norm-badge" id="norm-latency">Norm: 0.45</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-w-cost">Cost Weight</label>
+                            <input type="number" id="input-w-cost" class="form-control weight-input" value="0.15" step="0.05" min="0">
+                            <span class="norm-badge" id="norm-cost">Norm: 0.15</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-w-util">Utilization Weight</label>
+                            <input type="number" id="input-w-util" class="form-control weight-input" value="0.15" step="0.05" min="0">
+                            <span class="norm-badge" id="norm-util">Norm: 0.15</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-w-comp">Compliance Weight</label>
+                            <input type="number" id="input-w-comp" class="form-control weight-input" value="0.15" step="0.05" min="0">
+                            <span class="norm-badge" id="norm-comp">Norm: 0.15</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-w-sla">SLA Weight</label>
+                            <input type="number" id="input-w-sla" class="form-control weight-input" value="0.10" step="0.05" min="0">
+                            <span class="norm-badge" id="norm-sla">Norm: 0.10</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Weight Distribution Bar -->
+                    <div class="weight-breakdown-container">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
+                            <span>Real-Time Weight Normalization Distribution</span>
+                            <span id="weight-total-indicator" style="font-weight: 700; color: #10b981;">Total Sum = 1.000</span>
+                        </div>
+                        <div class="weight-bar" id="weight-bar-render"></div>
+                        <div class="weight-labels" id="weight-labels-render"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tier Configuration Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Tier Configuration</div>
+                        <div class="card-description">Configure infrastructure capacities, latencies, costs, bandwidth, and compliance policies</div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button id="add-tier-btn" class="btn btn-secondary btn-sm">+ Add Custom Tier</button>
+                        <button id="reset-tier-config-btn" class="btn btn-secondary btn-sm">Reset Default Tiers</button>
+                    </div>
+                </div>
+
+                <div class="tier-table-container">
+                    <table class="tier-table" id="tier-config-table">
+                        <thead>
+                            <tr>
+                                <th>Active</th>
+                                <th>Name</th>
+                                <th>GPU</th>
+                                <th>CPU</th>
+                                <th>Memory (GB)</th>
+                                <th>Latency (ms)</th>
+                                <th>Cost ($/hr)</th>
+                                <th>Bandwidth (MB/ms)</th>
+                                <th>Compliance Policies</th>
+                                <th>Max Sensitivity</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tier-config-table-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 2: GRAPHICAL PLACEMENT VISUALIZER -->
+        <div id="tab-placement" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Graphical Infrastructure & Workload Placement Matrix</div>
+                        <div class="card-description">Visual representation of Private Cloud, Public Cloud, and Edge Node resource allocation</div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <label for="algorithm-view-select" style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">ALGORITHM VIEW:</label>
+                        <select id="algorithm-view-select" class="form-control" style="width: auto;">
+                            <option value="winner">Selected Winner Strategy</option>
+                            <option value="LAS">LAS (Latency-Aware)</option>
+                            <option value="COS">COS (Cost-Optimized)</option>
+                            <option value="SP">SP (Shortest Path Load Balance)</option>
+                            <option value="GA">GA (Genetic Algorithm)</option>
+                            <option value="NSGA-II">NSGA-II (Multi-Objective)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="placement-winner-banner" style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); padding: 0.85rem 1.25rem; border-radius: 10px; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span class="badge badge-winner">META-ORCHESTRATOR WINNER</span>
+                        <span id="winner-algorithm-name" style="font-weight: 700; font-size: 1rem; color: #fbbf24;">Run simulation to view allocation</span>
+                    </div>
+                    <div id="winner-stats-summary" style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono);">
+                        Latency: - | Cost: - | Combined Score: -
+                    </div>
+                </div>
+
+                <!-- Infrastructure Cards Container -->
+                <div class="infrastructure-grid" id="infrastructure-cards-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: EXPERIMENT RESULTS -->
+        <div id="tab-results" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Performance Metrics Comparison Matrix</div>
+                        <div class="card-description">Evaluation across Latency, Cost, Utilization, Compliance %, SLA Satisfaction %, Combined Score & Rank</div>
+                    </div>
+                    <button id="export-csv-btn" class="btn btn-secondary btn-sm">Export Results CSV</button>
+                </div>
+
+                <div class="tier-table-container">
+                    <table class="results-table" id="results-metrics-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Scheduling Method</th>
+                                <th>Avg Latency (ms)</th>
+                                <th>Infrastructure Cost ($)</th>
+                                <th>Resource Util (%)</th>
+                                <th>Compliance Rate (%)</th>
+                                <th>SLA Satisfaction (%)</th>
+                                <th>Combined Score (0-100)</th>
+                                <th>Pareto Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="results-metrics-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Charts Container -->
+            <div class="charts-grid">
+                <div class="chart-box">
+                    <canvas id="chart-combined-score"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="chart-latency-cost"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="chart-compliance-sla"></canvas>
+                </div>
+                <div class="chart-box">
+                    <canvas id="chart-utilization"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: WORKLOAD TRACE EXPLORER -->
+        <div id="tab-workloads" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">Generated Workload Dataset Traces</div>
+                        <div class="card-description">Synthetic workload traces replicating Google Borg, Alibaba PAI, and DataCo Supply Chain datasets</div>
+                    </div>
+                    <input type="text" id="workload-search" class="form-control" placeholder="Search Workload ID, Source, or Dataset..." style="width: 250px;">
+                </div>
+
+                <div class="tier-table-container">
+                    <table class="tier-table">
+                        <thead>
+                            <tr>
+                                <th>Workload ID</th>
+                                <th>Source Trace</th>
+                                <th>Dataset ID</th>
+                                <th>GPU Req</th>
+                                <th>CPU Req</th>
+                                <th>Mem (GB)</th>
+                                <th>Duration (s)</th>
+                                <th>Priority</th>
+                                <th>SLA Latency (ms)</th>
+                                <th>Data Size (MB)</th>
+                                <th>Compliance Req</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workload-trace-body">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Workload Inspection Modal -->
+    <div id="workload-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-workload-title" style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">Workload Placement Details</h3>
+                <button class="close-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <div id="modal-workload-content" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="simulator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
